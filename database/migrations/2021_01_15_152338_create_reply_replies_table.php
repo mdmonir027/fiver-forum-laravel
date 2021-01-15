@@ -17,7 +17,7 @@ class CreateReplyRepliesTable extends Migration
             $table->id();
             $table->text('body');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('post_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('reply_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
