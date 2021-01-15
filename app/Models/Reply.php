@@ -9,6 +9,8 @@ class Reply extends Model
 {
     use HasFactory;
 
+
+
     public function reply_replies()
     {
         return $this->hasMany(ReplyReply::class);
@@ -18,4 +20,10 @@ class Reply extends Model
     {
         return $this->hasMany(ReplyLike::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }
