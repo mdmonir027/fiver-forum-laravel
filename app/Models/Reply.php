@@ -10,6 +10,7 @@ class Reply extends Model
     use HasFactory;
 
 
+    protected $with = ['reply_replies'];
 
     public function reply_replies()
     {

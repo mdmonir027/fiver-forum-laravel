@@ -4,12 +4,12 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ReplyResource extends JsonResource
+class ReplyReplyResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function toArray($request)
@@ -18,8 +18,6 @@ class ReplyResource extends JsonResource
             'id' => $this->id,
             'body' => $this->body,
             'user' => new UserResource($this->user),
-            'replies_count' => $this->reply_replies->count(),
-            'likes' => $this->reply_likes->count(),
             'created_at' => $this->created_at->diffForHumans(),
         ];
     }
