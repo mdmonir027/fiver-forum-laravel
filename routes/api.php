@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ReplyController;
 use App\Http\Controllers\Api\ReplyLikeController;
 use App\Http\Controllers\Api\ReplyReplyController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthController;
 
 Route::post('post/{post}/like', [LikeController::class, 'store']);
 Route::delete('post/{post}/like/{like}', [LikeController::class, 'destroy']);
@@ -18,3 +19,13 @@ Route::apiResource('category', CategoryController::class);
 Route::apiResource('post', PostController::class);
 Route::apiResource('post/{post}/reply', ReplyController::class);
 Route::apiResource('post/{post}/reply/{reply}/reply_reply', ReplyReplyController::class);
+
+
+Route::group(['prefix' => 'auth'], function () {
+
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::post('me', [AuthController::class, 'me']);
+
+});

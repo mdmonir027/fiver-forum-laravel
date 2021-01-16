@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\Reply;
 use App\Models\ReplyLike;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ReplyLikeController extends Controller
