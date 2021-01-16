@@ -1,17 +1,9 @@
-
 require('./bootstrap');
-window.Vue = require('vue');
 
-// event for handling events
-window.EventBus = new Vue();
+import Vue from "vue";
 
+window.Vue = Vue;
 
-// icon component
+Vue.component('app-home', require('./components/AppHome').default)
 
-// Vue.component('app-home', require('./components/Welcome').default);
-
-
-new Vue({
-    render: h => h(App),
-
-}).$mount('#app')
+const app = new Vue({}).$mount('#app')
