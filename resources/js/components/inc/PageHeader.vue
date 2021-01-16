@@ -6,7 +6,8 @@
                     <div class="page-header-category">
                         <select name="" id="" class="form-control">
 
-                            <option value="">Categories</option>
+                            <option>Categories</option>
+                            <option v-for="category in categories">{{ category.name }}</option>
 
                         </select>
                     </div>
@@ -41,7 +42,15 @@
 
 <script>
     export default {
-        name: "PageHeader"
+        name: "PageHeader",
+        computed: {
+            categories() {
+                return this.$store.getters.categories;
+            }
+        },
+        mounted() {
+            this.$store.dispatch('categories')
+        }
     }
 </script>
 

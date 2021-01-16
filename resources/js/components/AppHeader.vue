@@ -4,7 +4,7 @@
         <div class="container">
             <div class="menu">
                 <div class="logo">
-                    <a href="#" class="logo-link">Fiverr</a>
+                    <router-link to="/" class="logo-link">Fiverr</router-link>
                 </div>
                 <div class="navigation">
 

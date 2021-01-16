@@ -15,6 +15,7 @@ class PostResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
             'content' => $this->content,
@@ -22,7 +23,7 @@ class PostResource extends JsonResource
             'user' => new UserResource($this->user),
             'likes' => $this->likes->count(),
             'replies_count' => $this->replies->count(),
-            'craeted_at' => $this->created_at->diffForHumans()
+            'created_at' => $this->created_at->diffForHumans()
         ];
     }
 }

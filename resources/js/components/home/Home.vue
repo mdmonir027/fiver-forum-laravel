@@ -12,11 +12,7 @@
                     </div>
                     <div class="col-md-6 second">
                         <content-header title="Latest"></content-header>
-                        <div class="topic ">
-                            <PostMinimum></PostMinimum>
-                            <PostMinimum></PostMinimum>
-                            <PostMinimum></PostMinimum>
-                        </div>
+                        <posts></posts>
                         <a href="/" class="btn btn-secondary btn-sm float-right">More</a>
                     </div>
 
@@ -33,12 +29,12 @@
     import Welcome from "../inc/Welcome";
     import PageHeader from "../inc/PageHeader";
     import ContentHeader from "../inc/ContentHeader";
-    import PostMinimum from "./PostMinimum";
     import Categories from "../category/Categories";
+    import Posts from "../post/Posts";
 
     export default {
         name: "Home",
-        components: {Categories, PostMinimum, ContentHeader, PageHeader, Welcome},
+        components: {Posts, Categories, ContentHeader, PageHeader, Welcome},
         data() {
             return {}
         },

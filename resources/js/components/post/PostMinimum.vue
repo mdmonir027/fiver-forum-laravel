@@ -4,12 +4,11 @@
         <user></user>
 
         <div class="topic-details">
-            <router-link to="/post" class="h4 title">Any story behind your profile picture?</router-link>
-            <p class="text m-0">Was wondering if any Fiverr users have an interesting backstory for their profile pic,
-                such as being taken in an exotic or unusual location</p>
+            <router-link :to="`/post/${post.slug}`" class="h4 title">{{post.title | str_limit(20)}}</router-link>
+            <p class="text m-0">{{ post.content | str_limit(120) }}</p>
             <ul class="counters m-0 p-0">
-                <li>1 like</li>
-                <li>1 reply</li>
+                <li>{{ post.likes }} like</li>
+                <li>{{ post.replies_count }} reply</li>
                 <li>1 share</li>
                 <li>1 view</li>
             </ul>
@@ -23,7 +22,8 @@
 
     export default {
         name: "PostMinimum",
-        components: {User}
+        components: {User},
+        props: ['post']
     }
 </script>
 
