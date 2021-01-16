@@ -1,22 +1,19 @@
 <template>
-    <div class="category d-flex justify-content-between">
-        <div class="category-image">
-            <img class="w-100 h-100 rounded" src="" alt="">
-        </div>
-        <div class="category-details">
+    <div class="category">
+        <div class="category-details ml-2">
             <div class="d-flex justify-content-between">
-                <h3>Fiverr Tips</h3>
-                <p>10 Topic</p>
+                <h3>{{category.name}}</h3>
+                <p>{{ category.post_count}} Post</p>
             </div>
-            <p>This category is for posts with original tips for sellers to utilize. If you
-                want to ask for tips, please use Improve my Gig.</p>
+            <p>{{ category.description }}</p>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: "Category"
+        name: "Category",
+        props: ['category']
     }
 </script>
 
@@ -29,12 +26,6 @@
         border-radius: 5px 0 0 5px;
         padding: 10px 5px;
         box-shadow: 0 4px 11px #00000038
-    }
-
-    .category-image {
-        width: 220px;
-        margin-right: 10px;
-        margin-left: 10px;
     }
 
 </style>

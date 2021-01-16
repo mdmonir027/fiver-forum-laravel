@@ -38,7 +38,18 @@
 
     export default {
         name: "Home",
-        components: {Categories, PostMinimum, Category, ContentHeader, PageHeader, Welcome},
+        components: {Categories, PostMinimum, ContentHeader, PageHeader, Welcome},
+        data() {
+            return {}
+        },
+        computed: {
+            categories() {
+                return this.$store.getters.categories;
+            }
+        },
+        mounted() {
+            // this.$store.dispatch('categories')
+        }
 
     }
 </script>

@@ -1,9 +1,8 @@
 <template>
-    <div class="categories">
-        <category></category>
-        <category></category>
-        <category></category>
-        <category></category>
+    <div class="categories mt-2">
+
+        <category v-for="category in categories" :key="category.id" :category="category"></category>
+
     </div>
 </template>
 
@@ -12,7 +11,15 @@
 
     export default {
         name: "Categories",
-        components: {Category}
+        components: {Category},
+        computed: {
+            categories() {
+                return this.$store.getters.categories;
+            }
+        },
+        mounted() {
+            this.$store.dispatch('categories')
+        }
     }
 </script>
 
