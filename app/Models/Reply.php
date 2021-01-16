@@ -12,6 +12,8 @@ class Reply extends Model
 
     protected $with = ['reply_replies'];
 
+
+
     public function reply_replies()
     {
         return $this->hasMany(ReplyReply::class);

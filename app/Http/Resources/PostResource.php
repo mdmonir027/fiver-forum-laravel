@@ -21,7 +21,7 @@ class PostResource extends JsonResource
             'category' => $this->category->name,
             'user' => new UserResource($this->user),
             'likes' => $this->likes->count(),
-            'replies' => $this->replies->count(),
+            'replies_count' => $this->replies->count(),
             'craeted_at' => $this->created_at->diffForHumans()
         ];
     }

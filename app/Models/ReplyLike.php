@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ReplyLike extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['user_id', 'reply_id'];
 }
