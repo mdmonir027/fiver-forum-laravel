@@ -28,7 +28,7 @@
                     <reply-like :likes="reply.likes" :liked="reply.liked"></reply-like>
 
                 </div>
-                <div class="replyBtn">
+                <div class="iconBtn">
                     <span class="mr-1"><i class="fas fa-share"></i></span>
                     <span>Reply</span>
                 </div>
@@ -140,23 +140,8 @@
         margin-right: 0;
     }
 
-    .replyBtn {
-        transition: all .5s;
-    }
 
-    .replyBtn:hover {
-        cursor: pointer;
-        color: #007bff;
 
-    }
 
-    .replyIcon i {
-        transition: all .3s;
-    }
-
-    .replyIcon i:hover {
-        color: #00B22D !important;
-        cursor: pointer;
-    }
 
 </style>

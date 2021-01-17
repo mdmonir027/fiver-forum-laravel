@@ -8,13 +8,17 @@
             <div class="post-header border-bottom d-flex justify-content-between">
 
                 <div class="h5 text-muted d-block" v-if="post.user && post.user.name">{{post.user.name}}</div>
-                <div class="">
-                    <span class="mr-1" v-if="own"><i class="fas fa-pencil-alt"></i></span>
+                <div class="replyIcon">
+                    <span class="mr-1 iconBtn text-info" v-if="own && !editSection" @click="editSectionEnable"><i
+                        class="fas fa-pencil-alt"></i></span>
+                    <span class="mr-1 iconBtn text-danger" v-if="own"><i
+                        class="fas fa-trash-alt"></i></span>
                     <span v-if="post.created_at">{{ post.created_at}}</span>
                 </div>
 
             </div>
-            <div class="">
+
+            <div class="" v-if="!editSection">
                 <div class="elabration my-3" v-if="post.content" v-html="post.content"></div>
                 <div class="border-bottom mt-2 d-flex justify-content-between align-items-center">
                     <post-like :data='{like:post.likes , like:post.liked}'></post-like>
@@ -24,6 +28,9 @@
                     </div>
 
                 </div>
+            </div>
+            <div class="" v-else>
+                <edit-post v-if="post.content" :postContent="post.content"></edit-post>
             </div>
             <div class="post-footer mt-2 d-flex justify-content-between">
 
@@ -53,14 +60,16 @@
 <script>
     import UserAvatar from "../inc/UserAvatar";
     import PostLike from "../like/PostLike";
+    import EditPost from "./EditPost";
 
     export default {
         name: "SinglePost",
-        components: {PostLike, UserAvatar},
+        components: {EditPost, PostLike, UserAvatar},
         props: ['post'],
         data: () => {
             return {
-                own: false
+                own: false,
+                editSection: false
             }
         },
         methods: {
@@ -68,10 +77,23 @@
                 if (this.post && this.post.user) {
                     this.own = User.own(this.post.user.id)
                 }
+            },
+            editSectionEnable() {
+                EventBus.$emit('editSectionEnable');
+                this.editSection = true
+            },
+            listen() {
+                EventBus.$on('editSectionDisable', () => {
+                    this.editSection = false;
+                })
             }
         },
         mounted() {
-            this.checkOwn();
+            setTimeout(() => {
+                this.checkOwn();
+            }, 1000);
+
+            this.listen();
         }
     }
 </script>
