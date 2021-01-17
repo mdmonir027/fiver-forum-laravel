@@ -7,21 +7,23 @@
 
             <div class="post-header border-bottom d-flex justify-content-between">
 
-                <div class="h5 text-muted d-block" v-if="post.name">{{post.user.name}}</div>
+                <div class="h5 text-muted d-block" v-if="post.user && post.user.name">{{post.user.name}}</div>
                 <div class="">
                     <span class="mr-1" v-if="own"><i class="fas fa-pencil-alt"></i></span>
                     <span v-if="post.created_at">{{ post.created_at}}</span>
                 </div>
 
             </div>
-            <div class="elabration my-3" v-if="post.content" v-html="post.content"></div>
-            <div class="border-bottom mt-2 d-flex justify-content-between align-items-center">
-                <post-like v-if="post.likes && post.liked" :likes='post.likes' :liked="post.liked"></post-like>
-                <div class="replyBtn">
-                    <span class="mr-1"><i class="fas fa-share"></i></span>
-                    <span>Reply</span>
-                </div>
+            <div class="">
+                <div class="elabration my-3" v-if="post.content" v-html="post.content"></div>
+                <div class="border-bottom mt-2 d-flex justify-content-between align-items-center">
+                    <post-like :data='{like:post.likes , like:post.liked}'></post-like>
+                    <div class="replyBtn">
+                        <span class="mr-1"><i class="fas fa-share"></i></span>
+                        <span>Reply</span>
+                    </div>
 
+                </div>
             </div>
             <div class="post-footer mt-2 d-flex justify-content-between">
 
@@ -36,8 +38,8 @@
                     </div>
                 </div>
                 <ul class="count-list">
-                    <li v-if="post.replies_count"> Replies <br>{{ post.replies_count }}</li>
-                    <li v-if="post.likes"> Likes <br>{{ post.likes }}</li>
+                    <li> Replies <br> <span v-if="post">{{ post.replies_count }}</span></li>
+                    <li> Likes <br> <span v-if="post">{{ post.likes }}</span></li>
                 </ul>
 
 
@@ -63,7 +65,7 @@
         },
         methods: {
             checkOwn() {
-                if (this.post && this.post.user ) {
+                if (this.post && this.post.user) {
                     this.own = User.own(this.post.user.id)
                 }
             }

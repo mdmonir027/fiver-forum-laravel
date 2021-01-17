@@ -4,6 +4,7 @@ import Home from "../components/home/Home";
 import Post from "../components/post/Post";
 import Login from "../components/auth/Login";
 import Logout from "../components/auth/Logout";
+import AddPost from "../components/post/AddPost";
 
 window.Vue = Vue;
 
@@ -13,6 +14,7 @@ const routes = [
     {path: '/', component: Home},
     {path: '/login', component: Login},
     {path: '/logout', component: Logout},
+    {path: '/add-new-post', component: AddPost},
     {path: '/post/:slug', component: Post},
 ];
 

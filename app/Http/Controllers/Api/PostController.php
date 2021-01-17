@@ -29,10 +29,11 @@ class PostController extends Controller
      */
     public function store(PostStoreRequest $request)
     {
-        $request['user_id'] = 1;
         $post = Post::create($request->all());
 
-        return response(new PostResource($post), ReturnResponse::HTTP_CREATED);
+        $path = '/post/' . $post->slug;
+
+        return response($path, ReturnResponse::HTTP_CREATED);
     }
 
     /**

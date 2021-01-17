@@ -22,6 +22,10 @@ class Post extends Model
             $post->slug = Str::slug($post->title);
         });
 
+        static::creating(function ($post) {
+            $post->user_id = auth()->id();
+        });
+
         static::updating(function ($post) {
             $post->slug = Str::slug($post->title);
         });

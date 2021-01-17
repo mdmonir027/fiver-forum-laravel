@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-md-6 text-right newTopicRow">
                     <div class="">
-                        <router-link to="/add-new" class="btn btn-success newTopic "><span class="plus-icon"><i
+                        <router-link to="/add-new-post" class="btn btn-success newTopic "><span class="plus-icon"><i
                             class="fas fa-plus"></i></span>New
                             Topic
                         </router-link>
