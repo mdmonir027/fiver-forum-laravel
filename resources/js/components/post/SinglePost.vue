@@ -1,30 +1,25 @@
 <template>
-    <div class="post d-flex">
+    <div class="post d-flex" v-if="post">
 
-        <user class="user"></user>
+        <user-avatar v-if="post.user && post.user.image" :image="post.user.image" class="user"></user-avatar>
 
         <div class="post-content bg-white p-3">
 
             <div class="post-header border-bottom d-flex justify-content-between">
 
-                <div class="h5 text-muted d-block" v-if="post">{{post.user.name}}</div>
+                <div class="h5 text-muted d-block" v-if="post.name">{{post.user.name}}</div>
                 <div class="">
-                    <span class="mr-1"><i class="fas fa-pencil-alt"></i></span>
-                    <span v-if="post">{{ post.created_at}}</span>
+                    <span class="mr-1" v-if="own"><i class="fas fa-pencil-alt"></i></span>
+                    <span v-if="post.created_at">{{ post.created_at}}</span>
                 </div>
 
             </div>
-            <div class="elabration my-3" v-if="post" v-html="post.content"></div>
+            <div class="elabration my-3" v-if="post.content" v-html="post.content"></div>
             <div class="border-bottom mt-2 d-flex justify-content-between align-items-center">
-
-                <div class="h5 text-muted d-block">
-                    <span class="mr-1" v-if="post">{{ post.likes }}</span>
-                    <i class="far fa-heart mr-1"></i>
-                    <i class="fas fa-heart"></i>
-                </div>
-                <div class="">
+                <post-like v-if="post.likes && post.liked" :likes='post.likes' :liked="post.liked"></post-like>
+                <div class="replyBtn">
                     <span class="mr-1"><i class="fas fa-share"></i></span>
-                    <span>Share</span>
+                    <span>Reply</span>
                 </div>
 
             </div>
@@ -33,23 +28,16 @@
                 <div class="d-flex align-items-center">
                     <div class="mr-3">
                         <p class="text-muted h6 text-center">Created</p>
-                        <div class="created" v-if="post">
-                            <user class="user" ></user>
+                        <div class="created">
+                            <user-avatar class="user" v-if="post.user && post.user.image"
+                                         :image="post.user.image"></user-avatar>
                             {{ post.created_at }}
-                        </div>
-                    </div>
-                    <div class="">
-                        <p class="text-muted h6 text-center">Last Reply</p>
-                        <div class="last-reply mr-1">
-                            <user class="user"></user>
-                            7d
                         </div>
                     </div>
                 </div>
                 <ul class="count-list">
-                    <li v-if="post"> Replies <br>{{ post.replies_count }}</li>
-                    <li>Users <br>20</li>
-                    <li v-if="post"> Likes <br>{{ post.likes }}</li>
+                    <li v-if="post.replies_count"> Replies <br>{{ post.replies_count }}</li>
+                    <li v-if="post.likes"> Likes <br>{{ post.likes }}</li>
                 </ul>
 
 
@@ -61,34 +49,28 @@
 </template>
 
 <script>
-
-    import User from "../inc/User";
+    import UserAvatar from "../inc/UserAvatar";
+    import PostLike from "../like/PostLike";
 
     export default {
         name: "SinglePost",
-        components: { User },
-        data() {
+        components: {PostLike, UserAvatar},
+        props: ['post'],
+        data: () => {
             return {
-                post: null
+                own: false
             }
         },
         methods: {
-            getPost() {
-                let self = this;
-                axios.get(`/api/post/${this.$route.params.slug}`)
-                    .then(response => self.post = response.data)
-                    .catch(error => {
-                        console.log(error)
-                    })
-
-                console.log('error')
-
+            checkOwn() {
+                if (this.post && this.post.user ) {
+                    this.own = User.own(this.post.user.id)
+                }
             }
         },
         mounted() {
-            this.getPost();
+            this.checkOwn();
         }
-
     }
 </script>
 
@@ -133,6 +115,16 @@
 
     .count-list li:last-child {
         margin-right: 0;
+    }
+
+    .replyBtn {
+        transition: all .5s;
+    }
+
+    .replyBtn:hover {
+        cursor: pointer;
+        color: #007bff;
+
     }
 
 

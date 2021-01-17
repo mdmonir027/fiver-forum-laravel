@@ -16,10 +16,10 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory(5)->create();
         \App\Models\Category::factory(5)->create();
         \App\Models\Post::factory(15)->create();
-        \App\Models\Like::factory(50)->create();
+        \App\Models\Like::factory(15)->create();
         \App\Models\Reply::factory(45)->create();
         \App\Models\ReplyReply::factory(15)->create();
-        \App\Models\ReplyLike::factory(100)->create();
+        \App\Models\ReplyLike::factory(15)->create();
 
     }
 }

@@ -15,8 +15,6 @@
                         <posts></posts>
                         <a href="/" class="btn btn-secondary btn-sm float-right">More</a>
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -36,15 +34,14 @@
         name: "Home",
         components: {Posts, Categories, ContentHeader, PageHeader, Welcome},
         data() {
-            return {}
+            return {
+
+            }
         },
         computed: {
             categories() {
                 return this.$store.getters.categories;
             }
-        },
-        mounted() {
-            // this.$store.dispatch('categories')
         }
 
     }

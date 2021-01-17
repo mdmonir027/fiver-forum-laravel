@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\ReplyReplyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 
+
 Route::post('post/{post}/like', [LikeController::class, 'store']);
 Route::delete('post/{post}/like/{like}', [LikeController::class, 'destroy']);
 

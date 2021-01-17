@@ -32,9 +32,9 @@ class ReplyController extends Controller
      */
     public function store(Post $post, Request $request)
     {
-        $post->replies()->create($request->all());
+       $reply = $post->replies()->create($request->all());
 
-        return response('Ok', ReturnResponse::HTTP_CREATED);
+        return response(new ReplyResource($reply), ReturnResponse::HTTP_CREATED);
     }
 
     /**

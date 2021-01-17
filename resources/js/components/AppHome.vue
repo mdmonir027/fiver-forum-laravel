@@ -1,10 +1,10 @@
 <template>
     <div class="app">
-        <app-header></app-header>
+        <app-header v-if="loggedIn"></app-header>
         <div class="content">
             <router-view></router-view>
         </div>
-        <app-footer></app-footer>
+        <app-footer v-if="loggedIn"></app-footer>
     </div>
 </template>
 
@@ -14,7 +14,15 @@
 
     export default {
         name: "AppHome",
-        components: {AppFooter, AppHeader}
+        components: {AppFooter, AppHeader},
+        data: () => {
+            return {
+                loggedIn: User.loggedIn()
+            }
+        },
+        mounted() {
+            User.redirect(this.$route.path)
+        }
     }
 </script>
 

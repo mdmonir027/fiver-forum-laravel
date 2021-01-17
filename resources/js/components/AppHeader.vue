@@ -7,10 +7,14 @@
                     <router-link to="/" class="logo-link">Fiverr</router-link>
                 </div>
                 <div class="navigation">
-
+                    <ul class='navigation-list'>
+                        <li>
+                            <router-link to="/logout" class="navlink">Logout</router-link>
+                        </li>
+                    </ul>
                     <div class="user">
-                        <div class="user-wrapper">
-                            <img class="w-100" src="image/mdmonir027.jpg" alt="">
+                        <div class="user-wrapper" v-if="user">
+                            <img class="w-100" :src="`/upload/image/${user.image}`" alt="">
                         </div>
                     </div>
                 </div>
@@ -22,7 +26,32 @@
 
 <script>
     export default {
-        name: "AppHeader"
+        name: "AppHeader",
+        data: () => {
+            return {
+                user: null
+            }
+        },
+        methods: {
+            getUser() {
+                axios.post('/api/auth/me')
+                    .then(response => {
+                        this.user = response.data
+                    }).catch(error => console.log(error))
+            }
+        },
+        mounted() {
+            this.getUser();
+        },
+        watch: {
+            check() {
+                this.getUser();
+            }
+        },
+        created() {
+            this.getUser();
+        }
+
     }
 </script>
 
@@ -43,11 +72,9 @@
         font-size: 30px;
         text-decoration: none;
         letter-spacing: 0;
-        /*flex: .5;*/
     }
 
     .navigation {
-        /*flex: 0.5;*/
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -70,6 +97,23 @@
     .user-wrapper img {
         height: inherit;
         border-radius: 50%;
+    }
+
+    .navigation-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        margin-right: 20px;
+    }
+
+    .navlink {
+        text-decoration: none;
+        color: #fff;
+        transition: all .5s;
+    }
+
+    .navlink:hover {
+        color: #007bff;
     }
 
 </style>

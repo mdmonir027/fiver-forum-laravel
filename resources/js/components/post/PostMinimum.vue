@@ -1,7 +1,7 @@
 <template>
     <div class="topic-minimum d-flex justify-content-start my-2 align-items-center">
 
-        <user></user>
+        <user-avatar :image='post.user.image'></user-avatar>
 
         <div class="topic-details">
             <router-link :to="`/post/${post.slug}`" class="h4 title">{{post.title | str_limit(20)}}</router-link>
@@ -18,11 +18,11 @@
 </template>
 
 <script>
-    import User from "../inc/User";
+    import UserAvatar from "../inc/UserAvatar";
 
     export default {
         name: "PostMinimum",
-        components: {User},
+        components: {UserAvatar},
         props: ['post']
     }
 </script>

@@ -7,6 +7,8 @@ const store = new Vuex.Store({
     state: {
         categories: [],
         posts: [],
+        post: [],
+        replies: []
     },
     getters: {
         categories(state) {
@@ -14,6 +16,12 @@ const store = new Vuex.Store({
         },
         posts(state) {
             return state.posts;
+        },
+        post(state) {
+            return state.post;
+        },
+        replies(state) {
+            return state.replies;
         },
     },
     actions: {
@@ -28,8 +36,18 @@ const store = new Vuex.Store({
         },
         posts(data) {
             axios.get('/api/post')
+                .then(response => data.commit('posts', response.data))
+                .catch(error => false)
+        },
+        post(data, slug) {
+            axios.get(`/api/post/${slug}`)
+                .then(response => data.commit('post', response.data))
+                .catch(error => false)
+        },
+        replies(data, slug) {
+            axios.get(`/api/post/${slug}/reply`)
                 .then(response => {
-                    data.commit('posts', response.data)
+                    data.commit('replies', response.data)
                 })
                 .catch(error => {
                     console.log(error)
@@ -42,6 +60,15 @@ const store = new Vuex.Store({
         },
         posts(state, data) {
             state.posts = data
+        },
+        post(state, data) {
+            state.post = data
+        },
+        replies(state, data) {
+            state.replies = data
+        },
+        addReplies(state, reply) {
+            state.replies.unshift(reply)
         },
 
     },

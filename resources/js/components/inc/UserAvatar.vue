@@ -1,12 +1,13 @@
 <template>
     <div class="user rounded-circle">
-        <img src="/image/mdmonir027.jpg" class="rounded-circle" alt="">
+        <img :src="`/upload/image/${image}`" class="rounded-circle" alt="">
     </div>
 </template>
 
 <script>
     export default {
-        name: "User"
+        name: "UserAvatar",
+        props: ['image']
     }
 </script>
 
