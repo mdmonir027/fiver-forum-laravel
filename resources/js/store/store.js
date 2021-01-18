@@ -8,7 +8,7 @@ const store = new Vuex.Store({
         categories: [],
         posts: [],
         post: [],
-        replies: []
+        replies: [],
     },
     getters: {
         categories(state) {

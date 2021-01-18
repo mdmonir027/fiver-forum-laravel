@@ -19,25 +19,31 @@
             </div>
             <div class="elabration my-3" v-if="!editReplySection" v-html="reply.body"></div>
             <edit-reply v-else :content="{body:reply.body , id:reply.id}"></edit-reply>
-            <div class="border-top pt-2 mt-4 d-flex justify-content-between align-items-center">
+
+            <div class="border-top pt-2 mt-4 d-flex justify-content-between align-items-center"
+                 v-if="!addReplyReplySection">
 
                 <div class="h5 text-muted d-block">
-                    <span class="mr-4 text-success reply-btn" v-if="hasReplies" @click="repliesToggle"> {{ reply.replies_count }} replies
-                        <i class="fas fa-angle-down" v-if="!repliesSection"></i>
+                    <span class="mr-4 text-success reply-btn" v-if="hasReplies" @click="repliesToggle"> {{ repliesCount }} replies
                         <i v-if="repliesSection" class="fas fa-angle-up"></i>
+                        <i class="fas fa-angle-down" v-if="!repliesSection"></i>
                     </span>
                     <reply-like :likes="reply.likes" :liked="reply.liked"></reply-like>
 
                 </div>
-                <div class="iconBtn">
+                <div class="iconBtn" @click="enableAddReplyReplySection">
                     <span class="mr-1"><i class="fas fa-share"></i></span>
                     <span>Reply</span>
                 </div>
 
             </div>
+
+
             <div class="replies" v-if="repliesSection">
-                <reply-reply :replyId="reply.id"></reply-reply>
+                <reply-reply :id="reply.id"></reply-reply>
             </div>
+
+            <add-reply-reply v-if="addReplyReplySection" :data="{id:reply.id}"></add-reply-reply>
         </div>
 
     </div>
@@ -47,15 +53,16 @@
 <script>
 
 
-    import ReplyReply from "./ReplyReply";
+    import ReplyReply from "../replyreply/ReplyReply";
     import ReplyLike from "../like/ReplyLike";
     import UserAvatar from "../inc/UserAvatar";
     import EditReply from "./EditReply";
+    import AddReplyReply from "../replyreply/AddReplyReply";
 
 
     export default {
         name: "Reply",
-        components: {EditReply, UserAvatar, ReplyLike, ReplyReply},
+        components: {AddReplyReply, EditReply, UserAvatar, ReplyLike, ReplyReply},
         props: ['reply'],
         data: () => {
             return {
@@ -63,24 +70,42 @@
                 hasReplies: false,
                 own: false,
                 error: null,
-                editReplySection: false
+                editReplySection: false,
+                addReplyReplySection: false,
+                repliesCount: null
             }
         },
         methods: {
             repliesToggle() {
                 this.repliesSection ? this.repliesSection = false : this.repliesSection = true;
             },
-            hideReply() {
-                this.repliesSection = false;
-            },
             listen() {
-                EventBus.$on('hideReplies', () => {
-                    this.hideReply();
+                let self = this;
+                EventBus.$on('hideReplies', (replyId) => {
+                    if (this.reply.id === replyId) {
+                        this.repliesSection = false;
+                    }
                 });
 
                 EventBus.$on('editReplySectionDisable', () => {
                     this.editReplySection = false
                 });
+
+                EventBus.$on('addReplyReplySectionDisable', (data) => {
+                    if (data.id === this.reply.id) {
+                        this.addReplyReplySection = false;
+                        if (data.type) {
+                            this.repliesSection = true
+                            this.repliesCount++
+                        }
+                    }
+                });
+
+                EventBus.$on('deleteReplyReply', (id) => {
+                    if (self.reply.id === id) {
+                        self.repliesCount--
+                    }
+                })
 
             },
             hasReplyCheck() {
@@ -99,15 +124,35 @@
                         this.error = error.response.data.error
                     })
             },
+
+            hideReplyRepliesSection() {
+                this.repliesSection = false;
+            },
+            showReplyRepliesSection() {
+                this.repliesSection = true;
+            },
+            enableAddReplyReplySection() {
+                this.addReplyReplySection = true;
+                this.repliesSection = false;
+            },
+            disableAddReplyReplySection() {
+                this.addReplyReplySection = false;
+            },
             enableEditReplySection() {
                 this.editReplySection = true
-            }
+            },
+            disableEditReplySection() {
+                this.editReplySection = false
+            },
 
         },
         mounted() {
             this.listen();
             this.hasReplyCheck();
             this.checkOwn();
+        },
+        created() {
+            this.repliesCount = this.reply.replies_count
         }
     }
 </script>

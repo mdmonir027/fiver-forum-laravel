@@ -21,6 +21,7 @@ class Reply extends Model
         static::creating(function ($reply) {
             return $reply->user_id = auth()->id();
         });
+
     }
 
     public function reply_replies()

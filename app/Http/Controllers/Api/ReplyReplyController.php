@@ -44,10 +44,9 @@ class ReplyReplyController extends Controller
      */
     public function store(Post $post, Reply $reply, Request $request)
     {
-        $request['user_id'] = 1;
-        $reply->reply_replies()->create($request->all());
+        $reply = $reply->reply_replies()->create($request->all());
 
-        return response('created', ReturnResponse::HTTP_CREATED);
+        return response(new ReplyReplyResource($reply), ReturnResponse::HTTP_CREATED);
     }
 
     /**
