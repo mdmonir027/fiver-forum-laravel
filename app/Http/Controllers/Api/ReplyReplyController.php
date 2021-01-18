@@ -13,6 +13,16 @@ use Symfony\Component\HttpFoundation\Response as ReturnResponse;
 class ReplyReplyController extends Controller
 {
     /**
+     * Create a new AuthController instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('JWT');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @param \App\Models\Post $post
