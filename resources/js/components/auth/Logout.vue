@@ -6,7 +6,7 @@
     export default {
         name: "Logout",
         mounted() {
-            User.logout();
+            EventBus.$emit('logout');
         }
     }
 </script>

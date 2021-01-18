@@ -3,10 +3,10 @@
         <div class="login">
             <div class="container">
                 <div class="row justify-content-center align-items-center">
-                    <div class="col-md-7">
+                    <div class="col-md-5">
 
                         <div class="card-group">
-                            <div class="card p-4">
+                            <div class="card py-2 px-4">
                                 <h1 class="text-center my-3"> Login </h1>
                                 <p class=" text-center alert-danger alert" v-if="error">{{ error }}</p>
                                 <form @submit.prevent="login">

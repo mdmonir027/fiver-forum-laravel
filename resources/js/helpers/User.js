@@ -49,15 +49,15 @@ class User {
     redirect(path) {
 
         if (this.loggedIn()) {
-            if (path === '/login') {
+            if (path === '/login' || path === '/register' || path === '/forgot-password') {
                 window.location = '/'
             }
         } else {
-            if (path !== '/login') {
+            if (path === '/register' || path === '/forgot-password') {
+            } else if (path !== '/login') {
                 window.location = '/login'
             }
         }
-
     }
 
 

@@ -41,6 +41,9 @@
         },
         mounted() {
             this.getUser();
+            EventBus.$on('logout', () => {
+                User.logout();
+            })
         },
         watch: {
             $route() {
