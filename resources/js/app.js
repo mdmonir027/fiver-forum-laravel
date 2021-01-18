@@ -4,9 +4,11 @@ import Vue from "vue";
 import store from "./store/store";
 import filter from './helpers/Filters'
 import User from "./helpers/User";
+import Exceptions from "./helpers/Exceptions";
 
 window.Vue = Vue;
 window.User = User;
+window.Exceptions = Exceptions;
 
 window.EventBus = new Vue();
 

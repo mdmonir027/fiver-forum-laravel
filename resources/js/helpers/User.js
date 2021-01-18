@@ -10,8 +10,6 @@ class User {
         if (Token.isValid(accessToken)) {
             AppStorage.store(user, accessToken)
             window.location = '/'
-        } else {
-            console.log('false 1')
         }
     }
 
@@ -21,7 +19,6 @@ class User {
             return Token.isValid(token);
         }
         return false;
-        a
     }
 
     loggedIn() {
@@ -62,7 +59,6 @@ class User {
         }
 
     }
-
 
 
 }

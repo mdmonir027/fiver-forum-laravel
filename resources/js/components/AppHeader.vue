@@ -35,16 +35,15 @@
         methods: {
             getUser() {
                 axios.post('/api/auth/me')
-                    .then(response => {
-                        this.user = response.data
-                    }).catch(error => console.log(error))
+                    .then(response => this.user = response.data)
+                    .catch(error => Exceptions.handle(error))
             }
         },
         mounted() {
             this.getUser();
         },
         watch: {
-            check() {
+            $route() {
                 this.getUser();
             }
         },
