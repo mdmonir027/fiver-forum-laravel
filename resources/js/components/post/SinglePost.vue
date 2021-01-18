@@ -11,7 +11,7 @@
                 <div class="replyIcon">
                     <span class="mr-1 iconBtn text-info" v-if="own && !editSection" @click="editSectionEnable"><i
                         class="fas fa-pencil-alt"></i></span>
-                    <span class="mr-1 iconBtn text-danger" v-if="own"><i
+                    <span class="mr-1 iconBtn text-danger" v-if="own" @click="deletePost"><i
                         class="fas fa-trash-alt"></i></span>
                     <span v-if="post.created_at">{{ post.created_at}}</span>
                 </div>
@@ -86,9 +86,15 @@
                 EventBus.$on('editSectionDisable', () => {
                     this.editSection = false;
                 })
+            },
+            deletePost() {
+                axios.delete(`/api/post/${this.$route.params.slug}`)
+                    .then(response => this.$router.push('/'))
+                    .catch(error => console.log(error))
             }
         },
         mounted() {
+            // check with timeout so that it work after load the component
             setTimeout(() => {
                 this.checkOwn();
             }, 1000);

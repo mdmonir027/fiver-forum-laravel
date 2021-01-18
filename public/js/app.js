@@ -2578,6 +2578,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "EditPost",
@@ -2600,6 +2601,8 @@ __webpack_require__.r(__webpack_exports__);
     updatePost: function updatePost() {
       var _this = this;
 
+      // for will be submitted to server when the content change
+      // and emit an event to disable the content edit section
       if (this.oldContent !== this.content) {
         var slug = this.$route.params.slug;
         axios.put("/api/post/".concat(slug), {
@@ -2609,7 +2612,7 @@ __webpack_require__.r(__webpack_exports__);
 
           _this.editSectionDisable('take');
         })["catch"](function (error) {
-          return _this.error = error.response.data.errros;
+          return _this.error = error.response.data.errors;
         });
       } else {
         this.editSectionDisable('take');
@@ -2936,13 +2939,23 @@ __webpack_require__.r(__webpack_exports__);
       EventBus.$on('editSectionDisable', function () {
         _this.editSection = false;
       });
+    },
+    deletePost: function deletePost() {
+      var _this2 = this;
+
+      axios["delete"]("/api/post/".concat(this.$route.params.slug)).then(function (response) {
+        return _this2.$router.push('/');
+      })["catch"](function (error) {
+        return console.log(error);
+      });
     }
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this3 = this;
 
+    // check with timeout so that it work after load the component
     setTimeout(function () {
-      _this2.checkOwn();
+      _this3.checkOwn();
     }, 1000);
     this.listen();
   }
@@ -38981,6 +38994,12 @@ var render = function() {
         }
       },
       [
+        _vm.error && _vm.error.content
+          ? _c("p", { staticClass: "text-danger" }, [
+              _vm._v(_vm._s(_vm.error.content))
+            ])
+          : _vm._e(),
+        _vm._v(" "),
         _c("VueEditor", {
           staticClass: "bg-white mb-3",
           model: {
@@ -39255,9 +39274,14 @@ var render = function() {
                     : _vm._e(),
                   _vm._v(" "),
                   _vm.own
-                    ? _c("span", { staticClass: "mr-1 iconBtn text-danger" }, [
-                        _c("i", { staticClass: "fas fa-trash-alt" })
-                      ])
+                    ? _c(
+                        "span",
+                        {
+                          staticClass: "mr-1 iconBtn text-danger",
+                          on: { click: _vm.deletePost }
+                        },
+                        [_c("i", { staticClass: "fas fa-trash-alt" })]
+                      )
                     : _vm._e(),
                   _vm._v(" "),
                   _vm.post.created_at

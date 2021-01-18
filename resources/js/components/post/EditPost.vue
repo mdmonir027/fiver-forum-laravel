@@ -1,6 +1,7 @@
 <template>
     <div class="d-block">
         <form @submit.prevent="updatePost">
+            <p class="text-danger" v-if="error && error.content">{{ error.content}}</p>
             <VueEditor class="bg-white mb-3" v-model="content"></VueEditor>
             <div class="btn-group " role="group">
                 <button type="submit" class="btn btn-success"><i class="fa fa-check"></i></button>
@@ -29,6 +30,8 @@
                 EventBus.$emit('editSectionDisable', value);
             },
             updatePost() {
+                // for will be submitted to server when the content change
+                // and emit an event to disable the content edit section
                 if (this.oldContent !== this.content) {
                     let slug = this.$route.params.slug;
                     axios.put(`/api/post/${slug}`, {content: this.content})
@@ -36,8 +39,9 @@
                             this.$store.dispatch('post', this.$route.params.slug);
                             this.editSectionDisable('take');
                         })
-                        .catch(error => this.error = error.response.data.errros)
+                        .catch(error => this.error = error.response.data.errors)
                 } else {
+
                     this.editSectionDisable('take')
                 }
             }
