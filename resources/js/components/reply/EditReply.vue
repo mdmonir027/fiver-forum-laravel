@@ -4,7 +4,8 @@
             <p class="text-danger" v-if="error && error.body">{{ error.body}}</p>
             <VueEditor class="bg-white mb-3" v-model="body"></VueEditor>
 
-            <button type="submit" class="btn btn-success mr-2 float-right"><i class="fa fa-check"></i></button>
+            <button :disabled="!body" type="submit" class="btn btn-success mr-2 float-right"><i
+                class="fa fa-check"></i></button>
             <span @click="editReplySectionDisable" class="btn btn-danger float-right mr-1"><i class="fas fa-times"></i></span>
 
         </form>

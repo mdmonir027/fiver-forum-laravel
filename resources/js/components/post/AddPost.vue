@@ -23,7 +23,9 @@
                         </div>
                         <span class="text-danger" v-if="error && error.content">{{ error.content[0] }}</span>
                         <VueEditor class="bg-white mb-3" v-model="form.content"></VueEditor>
-                        <button type="submit" class="btn btn-primary">Create</button>
+                        <button :disabled="!form.content || !form.title || !form.category_id" type="submit"
+                                class="btn btn-primary">Create
+                        </button>
                     </form>
                 </div>
                 <div class="col-md-4">
@@ -44,8 +46,8 @@
         data: () => {
             return {
                 form: {
-                    content: '',
-                    title: '',
+                    content: null,
+                    title: null,
                     category_id: ''
                 },
                 error: null

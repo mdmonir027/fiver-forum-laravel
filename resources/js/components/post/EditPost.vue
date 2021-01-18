@@ -1,11 +1,11 @@
 <template>
-    <div class="d-block">
+    <div class="d-block clearfix">
         <form @submit.prevent="updatePost">
             <p class="text-danger" v-if="error && error.content">{{ error.content}}</p>
             <VueEditor class="bg-white mb-3" v-model="content"></VueEditor>
-            <div class="btn-group " role="group">
-                <button type="submit" class="btn btn-success"><i class="fa fa-check"></i></button>
-                <span @click="editSectionDisable" class="btn btn-danger"><i class="fas fa-times"></i></span>
+            <div class="float-right" role="group">
+                <span @click="editSectionDisable" class="btn btn-danger mr-1"><i class="fas fa-times"></i></span>
+                <button type="submit" :disabled="!content" class="btn btn-success"><i class="fa fa-check"></i></button>
             </div>
         </form>
     </div>

@@ -2515,6 +2515,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "AddPost",
@@ -2524,8 +2526,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       form: {
-        content: '',
-        title: '',
+        content: null,
+        title: null,
         category_id: ''
       },
       error: null
@@ -2991,7 +2993,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      content: ''
+      content: null
     };
   },
   methods: {
@@ -3027,6 +3029,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var vue2_editor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue2-editor */ "./node_modules/vue2-editor/dist/vue2-editor.esm.js");
+//
 //
 //
 //
@@ -3267,6 +3270,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var vue2_editor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue2-editor */ "./node_modules/vue2-editor/dist/vue2-editor.esm.js");
+//
 //
 //
 //
@@ -39316,8 +39320,17 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "button",
-                { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-                [_vm._v("Create")]
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: {
+                    disabled:
+                      !_vm.form.content ||
+                      !_vm.form.title ||
+                      !_vm.form.category_id,
+                    type: "submit"
+                  }
+                },
+                [_vm._v("Create\n                    ")]
               )
             ],
             1
@@ -39357,7 +39370,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "d-block" }, [
+  return _c("div", { staticClass: "d-block clearfix" }, [
     _c(
       "form",
       {
@@ -39386,16 +39399,23 @@ var render = function() {
           }
         }),
         _vm._v(" "),
-        _c("div", { staticClass: "btn-group ", attrs: { role: "group" } }, [
-          _vm._m(0),
-          _vm._v(" "),
+        _c("div", { staticClass: "float-right", attrs: { role: "group" } }, [
           _c(
             "span",
             {
-              staticClass: "btn btn-danger",
+              staticClass: "btn btn-danger mr-1",
               on: { click: _vm.editSectionDisable }
             },
             [_c("i", { staticClass: "fas fa-times" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              attrs: { type: "submit", disabled: !_vm.content }
+            },
+            [_c("i", { staticClass: "fa fa-check" })]
           )
         ])
       ],
@@ -39403,18 +39423,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-success", attrs: { type: "submit" } },
-      [_c("i", { staticClass: "fa fa-check" })]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -39828,7 +39837,7 @@ var render = function() {
           "button",
           {
             staticClass: "btn btn-success float-right mr-2 mt-2",
-            attrs: { type: "submit" }
+            attrs: { disabled: !_vm.content, type: "submit" }
           },
           [_vm._v("Reply")]
         )
@@ -39889,7 +39898,14 @@ var render = function() {
           }
         }),
         _vm._v(" "),
-        _vm._m(0),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-success mr-2 float-right",
+            attrs: { disabled: !_vm.body, type: "submit" }
+          },
+          [_c("i", { staticClass: "fa fa-check" })]
+        ),
         _vm._v(" "),
         _c(
           "span",
@@ -39904,21 +39920,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "btn btn-success mr-2 float-right",
-        attrs: { type: "submit" }
-      },
-      [_c("i", { staticClass: "fa fa-check" })]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -40126,7 +40128,14 @@ var render = function() {
           }
         }),
         _vm._v(" "),
-        _vm._m(0),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-success float-right mr-2 mt-2",
+            attrs: { type: "submit", disabled: !_vm.body }
+          },
+          [_c("i", { staticClass: "fa fa-check" })]
+        ),
         _vm._v(" "),
         _c(
           "span",
@@ -40141,21 +40150,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "btn btn-success float-right mr-2 mt-2",
-        attrs: { type: "submit" }
-      },
-      [_c("i", { staticClass: "fa fa-check" })]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

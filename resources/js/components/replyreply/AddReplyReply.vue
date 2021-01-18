@@ -3,7 +3,8 @@
         <form @submit.prevent="addReplyReply">
             <vue-editor class="bg-white" v-model="body"></vue-editor>
 
-            <button type="submit" class="btn btn-success float-right mr-2 mt-2"><i class="fa fa-check"></i></button>
+            <button type="submit" :disabled="!body" class="btn btn-success float-right mr-2 mt-2"><i
+                class="fa fa-check"></i></button>
             <span @click="abortReply" class="btn btn-danger mr-1 float-right mt-2"><i
                 class="fas fa-times"></i></span>
         </form>

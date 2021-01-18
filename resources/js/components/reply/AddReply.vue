@@ -2,7 +2,7 @@
     <div class="mt-5">
         <form @submit.prevent="addReply">
             <vue-editor class="bg-white" v-model="content"></vue-editor>
-            <button type="submit" class="btn btn-success float-right mr-2 mt-2">Reply</button>
+            <button :disabled="!content" type="submit" class="btn btn-success float-right mr-2 mt-2">Reply</button>
         </form>
     </div>
 </template>
@@ -15,7 +15,7 @@
         components: {VueEditor},
         data: () => {
             return {
-                content: ''
+                content: null
             }
         },
         methods: {
