@@ -33,6 +33,7 @@
 
     .likeIcons i {
         color: #ff00a56e;
+        transition: all .4s;
     }
 
     .likeIcons i:hover {

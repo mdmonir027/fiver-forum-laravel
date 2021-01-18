@@ -28,7 +28,7 @@
                         <i v-if="repliesSection" class="fas fa-angle-up"></i>
                         <i class="fas fa-angle-down" v-if="!repliesSection"></i>
                     </span>
-                    <reply-like :likes="reply.likes" :liked="reply.liked"></reply-like>
+                    <reply-like :like="{likes:reply.likes , liked:reply.liked , replyId: reply.id}"></reply-like>
 
                 </div>
                 <div class="iconBtn" @click="enableAddReplyReplySection">

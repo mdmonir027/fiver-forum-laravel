@@ -29,9 +29,7 @@ class ReplyLikeController extends Controller
      */
     public function store(Post $post, Reply $reply)
     {
-        $reply->reply_likes()->create([
-            'user_id' => 1
-        ]);
+        $reply->reply_likes()->create();
 
         return response('like it', Response::HTTP_CREATED);
     }
@@ -41,12 +39,11 @@ class ReplyLikeController extends Controller
      *
      * @param \App\Models\Post $post
      * @param \App\Models\Reply $reply
-     * @param \App\Models\ReplyLike $replyLike
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post, Reply $reply, $replyLikeId)
+    public function destroy(Post $post, Reply $reply)
     {
-        ReplyLike::find($replyLikeId)->delete();
+        $reply->reply_likes()->where('user_id', auth()->id())->delete();
         return response(null, Response::HTTP_NO_CONTENT);
     }
 }
