@@ -1932,9 +1932,9 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.post('/api/auth/me').then(function (response) {
-        _this.user = response.data;
+        return _this.user = response.data;
       })["catch"](function (error) {
-        return console.log(error);
+        return Exceptions.handle(error);
       });
     }
   },
@@ -1942,7 +1942,7 @@ __webpack_require__.r(__webpack_exports__);
     this.getUser();
   },
   watch: {
-    check: function check() {
+    $route: function $route() {
       this.getUser();
     }
   },
@@ -2435,7 +2435,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "PostLike",
-  props: ['data']
+  props: ['like'],
+  data: function data() {
+    return {
+      likes: 0,
+      liked: false
+    };
+  },
+  methods: {
+    mutateLikeData: function mutateLikeData() {
+      this.likes = this.like.likes;
+      this.liked = this.like.liked;
+    }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    setTimeout(function () {
+      _this.mutateLikeData();
+    }, 1000);
+  }
 });
 
 /***/ }),
@@ -3442,10 +3461,11 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _router_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router/router */ "./resources/js/router/router.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store/store */ "./resources/js/store/store.js");
 /* harmony import */ var _helpers_Filters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helpers/Filters */ "./resources/js/helpers/Filters.js");
 /* harmony import */ var _helpers_User__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./helpers/User */ "./resources/js/helpers/User.js");
+/* harmony import */ var _helpers_Exceptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./helpers/Exceptions */ "./resources/js/helpers/Exceptions.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
@@ -3453,11 +3473,13 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
-window.Vue = vue__WEBPACK_IMPORTED_MODULE_4__.default;
+
+window.Vue = vue__WEBPACK_IMPORTED_MODULE_5__.default;
 window.User = _helpers_User__WEBPACK_IMPORTED_MODULE_3__.default;
-window.EventBus = new vue__WEBPACK_IMPORTED_MODULE_4__.default();
-vue__WEBPACK_IMPORTED_MODULE_4__.default.component('app-home', __webpack_require__(/*! ./components/AppHome */ "./resources/js/components/AppHome.vue").default);
-var app = new vue__WEBPACK_IMPORTED_MODULE_4__.default({
+window.Exceptions = _helpers_Exceptions__WEBPACK_IMPORTED_MODULE_4__.default;
+window.EventBus = new vue__WEBPACK_IMPORTED_MODULE_5__.default();
+vue__WEBPACK_IMPORTED_MODULE_5__.default.component('app-home', __webpack_require__(/*! ./components/AppHome */ "./resources/js/components/AppHome.vue").default);
+var app = new vue__WEBPACK_IMPORTED_MODULE_5__.default({
   el: '#app',
   router: _router_router__WEBPACK_IMPORTED_MODULE_0__.default,
   store: _store_store__WEBPACK_IMPORTED_MODULE_1__.default
@@ -3562,6 +3584,52 @@ var AppStorage = /*#__PURE__*/function () {
 }();
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AppStorage = new AppStorage());
+
+/***/ }),
+
+/***/ "./resources/js/helpers/Exceptions.js":
+/*!********************************************!*\
+  !*** ./resources/js/helpers/Exceptions.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _User__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./User */ "./resources/js/helpers/User.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var Exceptions = /*#__PURE__*/function () {
+  function Exceptions() {
+    _classCallCheck(this, Exceptions);
+  }
+
+  _createClass(Exceptions, [{
+    key: "handle",
+    value: function handle(error) {
+      this.isExpired(error.response.data.error);
+    }
+  }, {
+    key: "isExpired",
+    value: function isExpired(error) {
+      if (error === 'Token is invalid' || error === 'Token is expired') {
+        _User__WEBPACK_IMPORTED_MODULE_0__.default.logout();
+      }
+    }
+  }]);
+
+  return Exceptions;
+}();
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Exceptions = new Exceptions());
 
 /***/ }),
 
@@ -3687,8 +3755,6 @@ var User = /*#__PURE__*/function () {
       if (_Token__WEBPACK_IMPORTED_MODULE_0__.default.isValid(accessToken)) {
         _AppStorage__WEBPACK_IMPORTED_MODULE_1__.default.store(user, accessToken);
         window.location = '/';
-      } else {
-        console.log('false 1');
       }
     }
   }, {
@@ -3701,7 +3767,6 @@ var User = /*#__PURE__*/function () {
       }
 
       return false;
-      a;
     }
   }, {
     key: "loggedIn",
@@ -39128,11 +39193,9 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "h5 text-muted d-block" }, [
-    _vm.data.likes
-      ? _c("span", { staticClass: "mr-1" }, [_vm._v(_vm._s(_vm.data.likes))])
-      : _vm._e(),
+    _c("span", { staticClass: "mr-1" }, [_vm._v(_vm._s(_vm.like.likes))]),
     _vm._v(" "),
-    !_vm.data.liked
+    !_vm.like.liked
       ? _c("i", { staticClass: "far fa-heart mr-1" })
       : _c("i", { staticClass: "fas fa-heart" })
   ])
@@ -39692,7 +39755,7 @@ var render = function() {
                     [
                       _c("post-like", {
                         attrs: {
-                          data: { like: _vm.post.likes, like: _vm.post.liked }
+                          like: { likes: _vm.post.likes, liked: _vm.post.liked }
                         }
                       }),
                       _vm._v(" "),

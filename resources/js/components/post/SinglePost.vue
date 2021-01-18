@@ -21,7 +21,7 @@
             <div class="" v-if="!editSection">
                 <div class="elabration my-3" v-if="post.content" v-html="post.content"></div>
                 <div class="border-bottom mt-2 d-flex justify-content-between align-items-center">
-                    <post-like :data='{like:post.likes , like:post.liked}'></post-like>
+                    <post-like :like='{likes:post.likes , liked:post.liked}'></post-like>
                     <div class="replyBtn">
                         <span class="mr-1"><i class="fas fa-share"></i></span>
                         <span>Reply</span>
@@ -69,7 +69,7 @@
         data: () => {
             return {
                 own: false,
-                editSection: false
+                editSection: false,
             }
         },
         methods: {
@@ -98,7 +98,6 @@
             setTimeout(() => {
                 this.checkOwn();
             }, 1000);
-
             this.listen();
         }
     }
