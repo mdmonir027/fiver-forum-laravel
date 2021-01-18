@@ -26,8 +26,17 @@
     }
 </script>
 
-<style scoped>
+<style>
     .content {
         background: #f7f7f7;
+    }
+
+    .likeIcons i {
+        color: #ff00a56e;
+    }
+
+    .likeIcons i:hover {
+        color: #ff00a5bf;
+        cursor: pointer;
     }
 </style>

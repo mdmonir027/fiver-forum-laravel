@@ -30,9 +30,7 @@ class LikeController extends Controller
      */
     public function store(Post $post)
     {
-        $post->likes()->create([
-            'user_id' => 1
-        ]);
+        $post->likes()->create();
 
         return response('like it', ReturnResponse::HTTP_CREATED);
     }
@@ -44,9 +42,9 @@ class LikeController extends Controller
      * @param \App\Models\Like $like
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post, Like $like)
+    public function destroy(Post $post)
     {
-        $like->delete();
+        $post->likes()->where('user_id', auth()->id())->delete();
 
         return response('Unlike post', ReturnResponse::HTTP_NO_CONTENT);
     }

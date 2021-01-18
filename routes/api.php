@@ -11,10 +11,10 @@ use App\Http\Controllers\Auth\AuthController;
 
 
 Route::post('post/{post}/like', [LikeController::class, 'store']);
-Route::delete('post/{post}/like/{like}', [LikeController::class, 'destroy']);
+Route::delete('post/{post}/like', [LikeController::class, 'destroy']);
 
 Route::post('post/{post}/reply/{reply}/like', [ReplyLikeController::class, 'store']);
-Route::delete('post/{post}/reply/{reply}/like/{like}', [ReplyLikeController::class, 'destroy']);
+Route::delete('post/{post}/reply/{reply}/like', [ReplyLikeController::class, 'destroy']);
 
 Route::apiResource('category', CategoryController::class);
 Route::apiResource('post', PostController::class);
