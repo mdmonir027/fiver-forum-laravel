@@ -9,15 +9,16 @@
 
                 <div class="h5 text-muted d-block">{{ reply.user.name}}</div>
                 <div class="">
-                    <span class="mr-1 replyIcon" v-if="own">
-                        <i class="fas fa-pencil-alt mr-1 text-info"></i>
+                    <span class="mr-1 replyIcon" v-if="own && !editReplySection">
+                        <i class="fas fa-pencil-alt mr-1 text-info" @click="enableEditReplySection"></i>
                         <i class="fas fa-trash-alt text-danger" @click="deleteReply"></i>
                     </span>
                     <span>{{reply.created_at}}</span>
                 </div>
 
             </div>
-            <div class="elabration my-3" v-html="reply.body"></div>
+            <div class="elabration my-3" v-if="!editReplySection" v-html="reply.body"></div>
+            <edit-reply v-else :content="{body:reply.body , id:reply.id}"></edit-reply>
             <div class="border-top pt-2 mt-4 d-flex justify-content-between align-items-center">
 
                 <div class="h5 text-muted d-block">
@@ -49,18 +50,20 @@
     import ReplyReply from "./ReplyReply";
     import ReplyLike from "../like/ReplyLike";
     import UserAvatar from "../inc/UserAvatar";
+    import EditReply from "./EditReply";
 
 
     export default {
         name: "Reply",
-        components: {UserAvatar, ReplyLike, ReplyReply},
+        components: {EditReply, UserAvatar, ReplyLike, ReplyReply},
         props: ['reply'],
         data: () => {
             return {
                 repliesSection: false,
                 hasReplies: false,
                 own: false,
-                error: null
+                error: null,
+                editReplySection: false
             }
         },
         methods: {
@@ -73,7 +76,12 @@
             listen() {
                 EventBus.$on('hideReplies', () => {
                     this.hideReply();
-                })
+                });
+
+                EventBus.$on('editReplySectionDisable', () => {
+                    this.editReplySection = false
+                });
+
             },
             hasReplyCheck() {
                 this.hasReplies = this.reply.replies_count > 0;
@@ -90,6 +98,9 @@
                     .catch(error => {
                         this.error = error.response.data.error
                     })
+            },
+            enableEditReplySection() {
+                this.editReplySection = true
             }
 
         },
@@ -139,9 +150,6 @@
     .count-list li:last-child {
         margin-right: 0;
     }
-
-
-
 
 
 </style>
