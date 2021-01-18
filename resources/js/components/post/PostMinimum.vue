@@ -1,11 +1,10 @@
 <template>
     <div class="topic-minimum d-flex justify-content-start my-2 align-items-center">
 
-        <user-avatar :image='post.user.image'></user-avatar>
+        <user-avatar :image='post.user.image' class="user"></user-avatar>
 
         <div class="topic-details">
-            <router-link :to="`/post/${post.slug}`" class="h4 title">{{post.title | str_limit(20)}}</router-link>
-            <p class="text m-0">{{ post.content | str_limit(120) }}</p>
+            <router-link :to="`/post/${post.slug}`" class="h4 title">{{post.title | str_limit(30)}}</router-link>
             <ul class="counters m-0 p-0">
                 <li>{{ post.likes }} like</li>
                 <li>{{ post.replies_count }} reply</li>
@@ -54,6 +53,10 @@
 
     .counters li:last-child {
         margin-right: 0;
+    }
+
+    .user {
+        width: 55px;
     }
 
 </style>

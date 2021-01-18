@@ -2783,7 +2783,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "PostMinimum",
@@ -5952,7 +5951,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.topic-details .title[data-v-41df6f0a] {\n    color: #333333;\n    text-decoration: none;\n}\n.topic-details .text[data-v-41df6f0a] {\n    font-size: 14px;\n}\n.topic-details .title[data-v-41df6f0a]:hover {\n    color: #007bff;\n}\n.counters[data-v-41df6f0a] {\n    display: flex;\n    list-style: none;\n}\n.counters li[data-v-41df6f0a] {\n    margin-right: 10px;\n    color: #00B22D;\n}\n.counters li[data-v-41df6f0a]:last-child {\n    margin-right: 0;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.topic-details .title[data-v-41df6f0a] {\n    color: #333333;\n    text-decoration: none;\n}\n.topic-details .text[data-v-41df6f0a] {\n    font-size: 14px;\n}\n.topic-details .title[data-v-41df6f0a]:hover {\n    color: #007bff;\n}\n.counters[data-v-41df6f0a] {\n    display: flex;\n    list-style: none;\n}\n.counters li[data-v-41df6f0a] {\n    margin-right: 10px;\n    color: #00B22D;\n}\n.counters li[data-v-41df6f0a]:last-child {\n    margin-right: 0;\n}\n.user[data-v-41df6f0a] {\n    width: 55px;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -38469,7 +38468,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {},
+    { staticClass: "py-5" },
     [
       _c("welcome"),
       _vm._v(" "),
@@ -39145,7 +39144,10 @@ var render = function() {
         "topic-minimum d-flex justify-content-start my-2 align-items-center"
     },
     [
-      _c("user-avatar", { attrs: { image: _vm.post.user.image } }),
+      _c("user-avatar", {
+        staticClass: "user",
+        attrs: { image: _vm.post.user.image }
+      }),
       _vm._v(" "),
       _c(
         "div",
@@ -39157,12 +39159,8 @@ var render = function() {
               staticClass: "h4 title",
               attrs: { to: "/post/" + _vm.post.slug }
             },
-            [_vm._v(_vm._s(_vm._f("str_limit")(_vm.post.title, 20)))]
+            [_vm._v(_vm._s(_vm._f("str_limit")(_vm.post.title, 30)))]
           ),
-          _vm._v(" "),
-          _c("p", { staticClass: "text m-0" }, [
-            _vm._v(_vm._s(_vm._f("str_limit")(_vm.post.content, 120)))
-          ]),
           _vm._v(" "),
           _c("ul", { staticClass: "counters m-0 p-0" }, [
             _c("li", [_vm._v(_vm._s(_vm.post.likes) + " like")]),

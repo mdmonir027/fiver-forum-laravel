@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+    <div class="py-5">
         <welcome></welcome>
         <page-header></page-header>
 
@@ -34,9 +34,7 @@
         name: "Home",
         components: {Posts, Categories, ContentHeader, PageHeader, Welcome},
         data() {
-            return {
-
-            }
+            return {}
         },
         computed: {
             categories() {
