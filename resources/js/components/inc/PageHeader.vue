@@ -13,16 +13,10 @@
                     </div>
                     <ul class="page-header-list">
                         <li>
-                            <router-link to="/">Category</router-link>
+                            <router-link active-class="active" to="/">Category</router-link>
                         </li>
                         <li>
-                            <router-link to="/top">Top</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/latest">Latest</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/unread">Unread (10)</router-link>
+                            <router-link active-class="active" to="/latest">Latest</router-link>
                         </li>
                     </ul>
 

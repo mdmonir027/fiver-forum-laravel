@@ -7,6 +7,7 @@ import Logout from "../components/auth/Logout";
 import AddPost from "../components/post/AddPost";
 import Register from "../components/auth/Register";
 import ForgotPassword from "../components/auth/ForgotPassword";
+import LatestPosts from "../components/pages/LatestPosts";
 
 window.Vue = Vue;
 
@@ -20,6 +21,7 @@ const routes = [
     {path: '/logout', component: Logout},
     {path: '/add-new-post', component: AddPost},
     {path: '/post/:slug', component: Post},
+    {path: '/latest', component: LatestPosts},
 ];
 
 const router = new VueRouter({

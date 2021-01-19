@@ -81,4 +81,5 @@ class PostController extends Controller
         $post->delete();
         return response(null, ReturnResponse::HTTP_NO_CONTENT);
     }
+
 }
