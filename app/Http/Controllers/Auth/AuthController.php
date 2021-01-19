@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SingUpRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
@@ -14,7 +17,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('JWT', ['except' => ['login']]);
+        $this->middleware('JWT', ['except' => ['login', 'signUp']]);
     }
 
     /**
@@ -80,5 +83,15 @@ class AuthController extends Controller
             'expires_in' => auth()->factory()->getTTL() * 60,
             'user' => auth()->user()->name
         ]);
+    }
+
+    /**
+     * @param SingUpRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function signUp(SingUpRequest $request)
+    {
+        User::create($request->all());
+        return $this->login($request);
     }
 }

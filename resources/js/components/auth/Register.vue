@@ -8,27 +8,33 @@
                         <div class="card-group">
                             <div class="card p-4">
                                 <h1 class="text-center my-3"> Register </h1>
-                                <form @submit.prevent="login">
+                                <form @submit.prevent="register">
 
                                     <div class="form-group">
                                         <label for="name">Name</label>
-                                        <input type="text" class="form-control" id="name"
+                                        <input type="text" v-model="form.name" class="form-control" id="name"
                                                aria-describedby="emailHelp">
+                                        <div class="text-danger" v-if="error && error.name">{{ error.name[0]}}</div>
 
                                     </div>
                                     <div class="form-group">
                                         <label for="email">Email address</label>
-                                        <input type="email" class="form-control" id="email"
+                                        <input type="email" v-model="form.email" class="form-control" id="email"
                                                aria-describedby="emailHelp">
-
+                                        <div class="text-danger" v-if="error && error.email">{{ error.email[0]}}</div>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="password">Password</label>
-                                        <input type="password" class="form-control" id="password">
+                                        <input type="password" v-model="form.password" class="form-control"
+                                               id="password">
+                                        <div class="text-danger" v-if="error && error.password">{{ error.password[0]}}
+                                        </div>
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                                    <button type="submit" :disabled="!form.name || !form.email || !form.password"
+                                            class="btn btn-primary btn-block">Register
+                                    </button>
                                 </form>
                                 <hr>
                                 <router-link to="/login" class="text-center"> Have account ? Login</router-link>
@@ -47,9 +53,24 @@
 <script>
     export default {
         name: "Register",
+        data: () => {
+            return {
+                form: {
+                    name: '',
+                    email: '',
+                    password: ''
+                },
+                error: {}
+            }
+        },
         methods: {
-            login() {
-                //
+            register() {
+                axios.post('/api/auth/sign-up', this.form)
+                    .then(response => {
+                        let token = response.data;
+                        User.responseLoginAfter(token)
+                    })
+                    .catch(error => this.error = error.response.data.errors)
             }
         },
     }
