@@ -1,9 +1,8 @@
 <template>
-    <form class="search-form">
+    <form class="search-form" @submit.prevent="search">
         <div class="d-flex justify-content-between input-wrapper">
-            <input type="text" class="form-control" name="" id="" placeholder="search here">
-            <button class="submit-btn" type="button">
-                <router-link class="text-dark" to="/search"><i class="fas fa-search"></i></router-link>
+            <input type="text" v-model="searchData" class="form-control" name="" id="" placeholder="search here">
+            <button class="submit-btn text-dark" :disabled="!searchData" type="submit"><i class="fas fa-search"></i>
             </button>
         </div>
     </form>
@@ -11,7 +10,17 @@
 
 <script>
     export default {
-        name: "SearchForm"
+        name: "SearchForm",
+        data: () => {
+            return {
+                searchData: ''
+            }
+        },
+        methods: {
+            search() {
+                this.$router.push(`/search/${this.searchData}`)
+            }
+        }
     }
 </script>
 

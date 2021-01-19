@@ -8,6 +8,7 @@ import AddPost from "../components/post/AddPost";
 import Register from "../components/auth/Register";
 import ForgotPassword from "../components/auth/ForgotPassword";
 import LatestPosts from "../components/pages/LatestPosts";
+import SearchPage from "../components/pages/SearchPage";
 
 window.Vue = Vue;
 
@@ -22,6 +23,7 @@ const routes = [
     {path: '/add-new-post', component: AddPost},
     {path: '/post/:slug', component: Post},
     {path: '/latest', component: LatestPosts},
+    {path: '/search/:search', component: SearchPage},
 ];
 
 const router = new VueRouter({
