@@ -16,6 +16,7 @@ Route::delete('post/{post}/like', [LikeController::class, 'destroy']);
 Route::post('post/{post}/reply/{reply}/like', [ReplyLikeController::class, 'store']);
 Route::delete('post/{post}/reply/{reply}/like', [ReplyLikeController::class, 'destroy']);
 
+Route::get('/search/{search}', [PostController::class, 'search']);
 
 Route::apiResource('category', CategoryController::class);
 Route::apiResource('post', PostController::class);

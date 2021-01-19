@@ -2345,7 +2345,22 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     search: function search() {
-      this.$router.push("/search/".concat(this.searchData));
+      if (this.$route.params.search !== this.searchData) {
+        this.$router.push("/search/".concat(this.searchData));
+      }
+    },
+    searchDataFill: function searchDataFill() {
+      if (this.$route.params.search) {
+        this.searchData = this.$route.params.search;
+      }
+    }
+  },
+  mounted: function mounted() {
+    this.searchDataFill();
+  },
+  watch: {
+    $route: function $route() {
+      this.searchDataFill();
     }
   }
 });
@@ -2580,14 +2595,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "SearchPost",
+  props: ['postData'],
   components: {
     UserAvatar: _UserAvatar__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  data: function data() {
+    return {
+      post: null
+    };
+  },
+  methods: {
+    mutatePost: function mutatePost() {
+      this.post = this.postData;
+    }
+  },
+  mounted: function mounted() {
+    this.mutatePost();
   }
 });
 
@@ -2967,10 +2993,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 
 
@@ -2984,10 +3006,19 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     categories: function categories() {
       return this.$store.getters.categories;
+    },
+    posts: function posts() {
+      return this.$store.getters.searchPosts;
     }
   },
   mounted: function mounted() {
     this.$store.dispatch('categories');
+    this.$store.dispatch('searchPosts', this.$route.params.search);
+  },
+  watch: {
+    $route: function $route() {
+      this.$store.dispatch('searchPosts', this.$route.params.search);
+    }
   }
 });
 
@@ -4422,7 +4453,8 @@ var store = new (vuex__WEBPACK_IMPORTED_MODULE_1___default().Store)({
     categories: [],
     posts: [],
     post: [],
-    replies: []
+    replies: [],
+    searchPosts: []
   },
   getters: {
     categories: function categories(state) {
@@ -4436,14 +4468,17 @@ var store = new (vuex__WEBPACK_IMPORTED_MODULE_1___default().Store)({
     },
     replies: function replies(state) {
       return state.replies;
+    },
+    searchPosts: function searchPosts(state) {
+      return state.searchPosts;
     }
   },
   actions: {
     categories: function categories(data) {
       axios.get('/api/category').then(function (response) {
-        data.commit('categories', response.data);
+        return data.commit('categories', response.data);
       })["catch"](function (error) {
-        console.log(error);
+        return false;
       });
     },
     posts: function posts(data) {
@@ -4462,9 +4497,16 @@ var store = new (vuex__WEBPACK_IMPORTED_MODULE_1___default().Store)({
     },
     replies: function replies(data, slug) {
       axios.get("/api/post/".concat(slug, "/reply")).then(function (response) {
-        data.commit('replies', response.data);
+        return data.commit('replies', response.data);
       })["catch"](function (error) {
-        console.log(error);
+        return false;
+      });
+    },
+    searchPosts: function searchPosts(data, search) {
+      axios.get("/api/search/".concat(search)).then(function (response) {
+        return data.commit('searchPosts', response.data);
+      })["catch"](function (error) {
+        return false;
       });
     }
   },
@@ -4483,6 +4525,9 @@ var store = new (vuex__WEBPACK_IMPORTED_MODULE_1___default().Store)({
     },
     addReplies: function addReplies(state, reply) {
       state.replies.unshift(reply);
+    },
+    searchPosts: function searchPosts(state, data) {
+      state.searchPosts = data;
     }
   }
 });
@@ -41027,81 +41072,96 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "d-flex mt-4" },
-    [
-      _c("user-avatar", { staticClass: "user" }),
-      _vm._v(" "),
-      _c("div", { staticClass: "w-100" }, [
-        _c(
-          "div",
-          { staticClass: "d-flex justify-content-between align-items-center" },
-          [
+  return _vm.post
+    ? _c(
+        "div",
+        { staticClass: "d-flex mt-4" },
+        [
+          _c("user-avatar", {
+            staticClass: "user",
+            attrs: { image: _vm.post.user.image }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "w-100" }, [
             _c(
               "div",
-              {},
+              {
+                staticClass: "d-flex justify-content-between align-items-center"
+              },
               [
                 _c(
-                  "router-link",
-                  { staticClass: "mb-0 h3 title", attrs: { to: "/post" } },
-                  [_vm._v("Buyer request impression")]
+                  "div",
+                  {},
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "mb-0 h3 title",
+                        attrs: { to: "/post/" + _vm.post.slug }
+                      },
+                      [
+                        _vm._v(
+                          " " +
+                            _vm._s(_vm._f("str_limit")(_vm.post.title, "40")) +
+                            "\n                "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "d-flex align-items-center" }, [
+                      _c(
+                        "div",
+                        { staticClass: "d-flex align-items-center mr-3" },
+                        [
+                          _vm._m(0),
+                          _vm._v(" "),
+                          _c("p", { staticClass: "text-muted ml-1 mb-0 h6" }, [
+                            _vm._v(_vm._s(_vm.post.category))
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "text-info" }, [
+                      _vm._v(
+                        _vm._s(_vm.post.user.name) +
+                          " posted in " +
+                          _vm._s(_vm.post.created_at)
+                      )
+                    ])
+                  ],
+                  1
                 ),
                 _vm._v(" "),
-                _vm._m(0),
-                _vm._v(" "),
-                _c("p", { staticClass: "text-info" }, [
-                  _vm._v("Md Monir posted in 7 Jan 2021")
+                _c("div", { staticClass: "count" }, [
+                  _c(
+                    "p",
+                    {
+                      staticClass:
+                        "text-primary font-weight-bold mb-0 text-center"
+                    },
+                    [
+                      _vm._v(_vm._s(_vm.post.replies_count) + " "),
+                      _c("br"),
+                      _vm._v(" Replies")
+                    ]
+                  )
                 ])
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _vm._m(1)
-          ]
-        )
-      ])
-    ],
-    1
-  )
+              ]
+            )
+          ])
+        ],
+        1
+      )
+    : _vm._e()
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex align-items-center" }, [
-      _c("div", { staticClass: "d-flex align-items-center mr-3" }, [
-        _c("span", { staticClass: "text-danger small mt-1" }, [
-          _c("i", { staticClass: "fas fa-square" })
-        ]),
-        _vm._v(" "),
-        _c("p", { staticClass: "text-muted ml-1 mb-0 h6" }, [
-          _vm._v("Fiverr Tips")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "d-flex align-items-center mr-3" }, [
-        _c("span", { staticClass: "text-danger small mt-1" }, [
-          _c("i", { staticClass: "fas fa-square" })
-        ]),
-        _vm._v(" "),
-        _c("p", { staticClass: "text-muted ml-1 mb-0 h6" }, [
-          _vm._v("Fiverr Tips")
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "count" }, [
-      _c(
-        "p",
-        { staticClass: "text-primary font-weight-bold mb-0 text-center" },
-        [_vm._v("200 "), _c("br"), _vm._v(" Replies")]
-      )
+    return _c("span", { staticClass: "text-danger small mt-1" }, [
+      _c("i", { staticClass: "fas fa-square" })
     ])
   }
 ]
@@ -41398,7 +41458,7 @@ var render = function() {
   return _c("div", { staticClass: "py-5" }, [
     _c("div", { staticClass: "container " }, [
       _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-10" }, [
+        _c("div", { staticClass: "col-md-12" }, [
           _c("div", { staticClass: "search" }, [
             _c("div", { staticClass: "container" }, [
               _c("div", { staticClass: "row" }, [
@@ -41414,7 +41474,13 @@ var render = function() {
                         { staticClass: "d-flex justify-content-between " },
                         [
                           _c("p", { staticClass: "text-muted h5" }, [
-                            _vm._v(" 10 result for topic ")
+                            _vm._v(
+                              " " +
+                                _vm._s(_vm.posts.length) +
+                                " result for '" +
+                                _vm._s(this.$route.params.search) +
+                                "' "
+                            )
                           ]),
                           _vm._v(" "),
                           _c(
@@ -41448,19 +41514,14 @@ var render = function() {
                       _c("hr")
                     ]),
                     _vm._v(" "),
-                    _c("search-post"),
-                    _vm._v(" "),
-                    _c("search-post"),
-                    _vm._v(" "),
-                    _c("search-post"),
-                    _vm._v(" "),
-                    _c("search-post"),
-                    _vm._v(" "),
-                    _c("search-post"),
-                    _vm._v(" "),
-                    _c("search-post")
+                    _vm._l(_vm.posts, function(post) {
+                      return _c("search-post", {
+                        key: post.id,
+                        attrs: { postData: post }
+                      })
+                    })
                   ],
-                  1
+                  2
                 ),
                 _vm._v(" "),
                 _c(

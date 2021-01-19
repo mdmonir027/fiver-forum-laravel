@@ -9,6 +9,7 @@ const store = new Vuex.Store({
         posts: [],
         post: [],
         replies: [],
+        searchPosts: []
     },
     getters: {
         categories(state) {
@@ -23,16 +24,15 @@ const store = new Vuex.Store({
         replies(state) {
             return state.replies;
         },
+        searchPosts(state) {
+            return state.searchPosts;
+        },
     },
     actions: {
         categories(data) {
             axios.get('/api/category')
-                .then(response => {
-                    data.commit('categories', response.data)
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+                .then(response => data.commit('categories', response.data))
+                .catch(error => false)
         },
         posts(data) {
             axios.get('/api/post')
@@ -46,12 +46,13 @@ const store = new Vuex.Store({
         },
         replies(data, slug) {
             axios.get(`/api/post/${slug}/reply`)
-                .then(response => {
-                    data.commit('replies', response.data)
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+                .then(response => data.commit('replies', response.data))
+                .catch(error => false)
+        },
+        searchPosts(data, search) {
+            axios.get(`/api/search/${search}`)
+                .then(response => data.commit('searchPosts', response.data))
+                .catch(error => false)
         },
     },
     mutations: {
@@ -69,6 +70,9 @@ const store = new Vuex.Store({
         },
         addReplies(state, reply) {
             state.replies.unshift(reply)
+        },
+        searchPosts(state, data) {
+            state.searchPosts = data;
         },
 
     },

@@ -7,6 +7,7 @@ use App\Http\Requests\PostStoreRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Response as ReturnResponse;
 
 class PostController extends Controller
@@ -18,7 +19,7 @@ class PostController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('JWT');
+        $this->middleware('JWT', ['except' => ['search']]);
     }
 
     /**
@@ -80,6 +81,13 @@ class PostController extends Controller
     {
         $post->delete();
         return response(null, ReturnResponse::HTTP_NO_CONTENT);
+    }
+
+    public function search($search)
+    {
+        $posts = Post::where('title', 'LIKE', "%$search%")->orderBy('id', 'desc')->get();
+        return response(PostResource::collection($posts), Response::HTTP_OK);
+
     }
 
 }

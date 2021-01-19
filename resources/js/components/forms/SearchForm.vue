@@ -18,7 +18,22 @@
         },
         methods: {
             search() {
-                this.$router.push(`/search/${this.searchData}`)
+                if (this.$route.params.search !== this.searchData) {
+                    this.$router.push(`/search/${this.searchData}`)
+                }
+            },
+            searchDataFill() {
+                if (this.$route.params.search) {
+                    this.searchData = this.$route.params.search
+                }
+            }
+        },
+        mounted() {
+            this.searchDataFill();
+        },
+        watch: {
+            $route() {
+                this.searchDataFill();
             }
         }
     }

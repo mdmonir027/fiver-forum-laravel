@@ -2,7 +2,7 @@
     <div class="py-5">
         <div class="container ">
             <div class="row justify-content-center">
-                <div class="col-md-10">
+                <div class="col-md-12">
                     <div class="search">
                         <div class="container">
                             <div class="row">
@@ -10,7 +10,8 @@
                                     <search-form></search-form>
                                     <div class="mt-2">
                                         <div class="d-flex justify-content-between ">
-                                            <p class="text-muted h5"> 10 result for topic </p>
+                                            <p class="text-muted h5"> {{ posts.length }} result for '{{
+                                                this.$route.params.search }}' </p>
                                             <div class="float-right">
                                                 <router-link to="/add-new" class="btn btn-primary btn-sm newTopic"><span
                                                     class="plus-icon mr-1"><i
@@ -22,12 +23,7 @@
                                         <hr>
                                     </div>
 
-                                    <search-post></search-post>
-                                    <search-post></search-post>
-                                    <search-post></search-post>
-                                    <search-post></search-post>
-                                    <search-post></search-post>
-                                    <search-post></search-post>
+                                    <search-post v-for="post in posts" :postData="post" :key="post.id"></search-post>
 
                                 </div>
 
@@ -61,10 +57,19 @@
         computed: {
             categories() {
                 return this.$store.getters.categories
-            }
+            },
+            posts() {
+                return this.$store.getters.searchPosts
+            },
         },
         mounted() {
             this.$store.dispatch('categories');
+            this.$store.dispatch('searchPosts', this.$route.params.search);
+        },
+        watch: {
+            $route() {
+                this.$store.dispatch('searchPosts', this.$route.params.search);
+            }
         }
     }
 </script>
