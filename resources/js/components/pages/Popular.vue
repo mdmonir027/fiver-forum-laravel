@@ -28,24 +28,19 @@
 import Welcome from "../inc/Welcome";
 import PageHeader from "../inc/PageHeader";
 import TopPagePost from "../inc/TopPagePost";
-
 export default {
-  name: "LatestPosts",
+  name: "Popular",
   components: { TopPagePost, PageHeader, Welcome },
   computed: {
     posts() {
-      return this.$store.getters.posts;
+      return this.$store.getters.popularPost;
     },
   },
   mounted() {
-    this.$store.dispatch("posts");
+    this.$store.dispatch("popularPost");
   },
 };
 </script>
 
 <style scoped>
-table {
-  border-collapse: separate;
-  border-spacing: 0 10px;
-}
 </style>

@@ -1,6 +1,7 @@
-import Vue from 'vue'
+import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../components/home/Home";
+import Popular from "../components/pages/Popular";
 import Post from "../components/post/Post";
 import Login from "../components/auth/Login";
 import Logout from "../components/auth/Logout";
@@ -15,20 +16,21 @@ window.Vue = Vue;
 Vue.use(VueRouter);
 
 const routes = [
-    {path: '/', component: Home},
-    {path: '/login', component: Login},
-    {path: '/register', component: Register},
-    {path: '/forgot-password', component: ForgotPassword},
-    {path: '/logout', component: Logout},
-    {path: '/add-new-post', component: AddPost},
-    {path: '/post/:slug', component: Post},
-    {path: '/latest', component: LatestPosts},
-    {path: '/search/:search', component: SearchPage},
+    { path: "/", component: Home },
+    { path: "/popular", component: Popular },
+    { path: "/login", component: Login },
+    { path: "/register", component: Register },
+    { path: "/forgot-password", component: ForgotPassword },
+    { path: "/logout", component: Logout },
+    { path: "/add-new-post", component: AddPost },
+    { path: "/post/:slug", component: Post },
+    { path: "/latest", component: LatestPosts },
+    { path: "/search/:search", component: SearchPage }
 ];
 
 const router = new VueRouter({
     routes,
-    mode: 'history'
+    mode: "history"
 });
 
 export default router;
